@@ -55,8 +55,9 @@ class PostController extends Controller
     public function edit(\App\Models\Post $post)
     {
         // Ensure user owns the post
-        if ($post->user_id !== Auth::id()) {
-            abort(403);
+        $currentUserId = Auth::id();
+        if (!$currentUserId || $post->user_id != $currentUserId) {
+            abort(403, 'Unauthorized');
         }
 
         return view('posts.edit', compact('post'));
@@ -68,8 +69,9 @@ class PostController extends Controller
     public function update(Request $request, \App\Models\Post $post)
     {
         // Ensure user owns the post
-        if ($post->user_id !== Auth::id()) {
-            abort(403);
+        $currentUserId = Auth::id();
+        if (!$currentUserId || $post->user_id != $currentUserId) {
+            abort(403, 'Unauthorized');
         }
 
         $request->validate([
@@ -89,8 +91,9 @@ class PostController extends Controller
     public function destroy(\App\Models\Post $post)
     {
         // Ensure user owns the post
-        if ($post->user_id !== Auth::id()) {
-            abort(403);
+        $currentUserId = Auth::id();
+        if (!$currentUserId || $post->user_id != $currentUserId) {
+            abort(403, 'Unauthorized');
         }
 
         $post->delete();
