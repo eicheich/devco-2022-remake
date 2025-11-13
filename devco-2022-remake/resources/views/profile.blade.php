@@ -142,12 +142,14 @@
                                 <strong class="fs-5">{{ $posts->count() }}</strong><br><small
                                     class="text-muted">Posts</small>
                             </div>
-                            <div class="text-center">
+                            <div class="text-center" style="cursor: pointer;" data-bs-toggle="modal"
+                                data-bs-target="#followersModal">
                                 <strong
                                     class="fs-5">{{ \App\Models\Follow::where('followed_id', $user->id)->count() }}</strong><br><small
                                     class="text-muted">Followers</small>
                             </div>
-                            <div class="text-center">
+                            <div class="text-center" style="cursor: pointer;" data-bs-toggle="modal"
+                                data-bs-target="#followingModal">
                                 <strong
                                     class="fs-5">{{ \App\Models\Follow::where('follower_id', $user->id)->count() }}</strong><br><small
                                     class="text-muted">Following</small>
@@ -212,6 +214,106 @@
                 class="text-decoration-none">Houselab</a>
         </p>
     </footer>
+
+    <!-- Followers Modal -->
+    <div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="followersModalLabel">Followers</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @forelse(\App\Models\Follow::where('followed_id', $user->id)->with('follower')->get() as $follow)
+                        <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                            <div class="d-flex align-items-center">
+                                <img src="{{ $follow->follower->gender === 'male' ? 'https://assets.houselab.my.id/devco/man.png' : 'https://assets.houselab.my.id/devco/woman.png' }}"
+                                    alt="Profile" class="rounded-circle me-3" style="width: 40px; height: 40px;">
+                                <div>
+                                    <a href="{{ route('profile.show', $follow->follower->id) }}"
+                                        class="text-decoration-none d-block fw-bold">{{ $follow->follower->name }}</a>
+                                </div>
+                            </div>
+                            @if (Auth::id() !== $follow->follower->id)
+                                @if (Auth::user()->isFollowing($follow->follower))
+                                    <form method="POST"
+                                        action="{{ route('follow.destroy', $follow->follower->id) }}"
+                                        class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="btn btn-sm btn-outline-secondary">Unfollow</button>
+                                    </form>
+                                @else
+                                    <form method="POST" action="{{ route('follow.store', $follow->follower->id) }}"
+                                        class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-primary">Follow</button>
+                                    </form>
+                                @endif
+                            @endif
+                        </div>
+                    @empty
+                        <div class="text-center text-muted py-4">
+                            <i class="fas fa-user-friends fa-2x mb-3"></i>
+                            <p>No followers yet</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Following Modal -->
+    <div class="modal fade" id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="followingModalLabel">Following</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @forelse(\App\Models\Follow::where('follower_id', $user->id)->with('followed')->get() as $follow)
+                        <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                            <div class="d-flex align-items-center">
+                                <img src="{{ $follow->followed->gender === 'male' ? 'https://assets.houselab.my.id/devco/man.png' : 'https://assets.houselab.my.id/devco/woman.png' }}"
+                                    alt="Profile" class="rounded-circle me-3" style="width: 40px; height: 40px;">
+                                <div>
+                                    <a href="{{ route('profile.show', $follow->followed->id) }}"
+                                        class="text-decoration-none d-block fw-bold">{{ $follow->followed->name }}</a>
+                                </div>
+                            </div>
+                            @if (Auth::id() !== $follow->followed->id)
+                                @if (Auth::user()->isFollowing($follow->followed))
+                                    <form method="POST"
+                                        action="{{ route('follow.destroy', $follow->followed->id) }}"
+                                        class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="btn btn-sm btn-outline-secondary">Unfollow</button>
+                                    </form>
+                                @else
+                                    <form method="POST" action="{{ route('follow.store', $follow->followed->id) }}"
+                                        class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-primary">Follow</button>
+                                    </form>
+                                @endif
+                            @endif
+                        </div>
+                    @empty
+                        <div class="text-center text-muted py-4">
+                            <i class="fas fa-user-friends fa-2x mb-3"></i>
+                            <p>Not following anyone yet</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
     <script>

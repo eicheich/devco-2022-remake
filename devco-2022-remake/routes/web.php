@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RepostController;
+use App\Http\Controllers\UpdateController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +24,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::resource('posts', PostController::class)->only(['store', 'edit', 'update', 'destroy']);
+    Route::resource('updates', UpdateController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
     Route::post('/follow/{user}', [FollowController::class, 'store'])->name('follow.store');
     Route::delete('/follow/{user}', [FollowController::class, 'destroy'])->name('follow.destroy');
     Route::post('/likes/{post}', [LikeController::class, 'toggle'])->name('likes.toggle');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Update;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,6 +21,9 @@ class HomeController extends Controller
         $followingIds = \App\Models\Follow::where('follower_id', $user->id)->pluck('followed_id');
         $followingPosts = Post::with('user')->whereIn('user_id', $followingIds)->latest()->take(20)->get();
 
-        return view('timeline', compact('forYouPosts', 'followingPosts'));
+        // Get latest updates
+        $updates = Update::latest()->take(3)->get();
+
+        return view('timeline', compact('forYouPosts', 'followingPosts', 'updates'));
     }
 }
