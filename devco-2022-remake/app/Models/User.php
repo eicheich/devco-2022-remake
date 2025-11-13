@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'gender',
     ];
 
     /**
@@ -44,5 +45,39 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Relationships for follow feature
+    public function followers()
+    {
+        return $this->hasMany(Follow::class, 'followed_id');
+    }
+
+    public function following()
+    {
+        return $this->hasMany(Follow::class, 'follower_id');
+    }
+
+    // Helper methods
+    public function isFollowing(User $user)
+    {
+        return $this->following()->where('followed_id', $user->id)->exists();
+    }
+
+    public function follow(User $user)
+    {
+        if (!$this->isFollowing($user)) {
+            $this->following()->create(['followed_id' => $user->id]);
+        }
+    }
+
+    public function unfollow(User $user)
+    {
+        $this->following()->where('followed_id', $user->id)->delete();
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 }
