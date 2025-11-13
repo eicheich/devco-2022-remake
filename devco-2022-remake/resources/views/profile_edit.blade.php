@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timeline</title>
+    <title>Edit Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -12,7 +12,7 @@
 <body style="background-color: #f8f9fa;">
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="#">DevCo</a>
+            <a class="navbar-brand" href="{{ route('home') }}">DevCo</a>
             <!-- Mobile notifications: open offcanvas to avoid clipping -->
             <div class="me-3 d-lg-none">
                 <button class="btn btn-link text-dark p-0 position-relative" type="button" data-bs-toggle="offcanvas"
@@ -128,51 +128,61 @@
         </div>
     </div>
 
-    <div class="container mt-4">
-        <!-- Post Form -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <form method="POST" action="{{ route('posts.store') }}">
-                    @csrf
-                    <div class="mb-3">
-                        <textarea class="form-control" name="body" rows="3" placeholder="What's on your mind?"></textarea>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow border-0" style="border-radius: 10px;">
+                    <div class="card-body p-4">
+                        <h2 class="card-title text-center mb-4">Edit Profile</h2>
+                        @if (session('success'))
+                            <div class="alert alert-success">{{ session('success') }}</div>
+                        @endif
+                        <form method="POST" action="{{ route('profile.update', $user->id) }}">
+                            @csrf
+                            @method('PUT')
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    value="{{ old('name', $user->name) }}" required style="border-radius: 8px;">
+                                @error('name')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    value="{{ old('email', $user->email) }}" required style="border-radius: 8px;">
+                                @error('email')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select class="form-control" id="gender" name="gender" required
+                                    style="border-radius: 8px;">
+                                    <option value="male"
+                                        {{ old('gender', $user->gender) === 'male' ? 'selected' : '' }}>Male</option>
+                                    <option value="female"
+                                        {{ old('gender', $user->gender) === 'female' ? 'selected' : '' }}>Female
+                                    </option>
+                                </select>
+                                @error('gender')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <a href="{{ route('profile.show', $user->id) }}" class="btn btn-secondary"
+                                    style="border-radius: 8px;">Cancel</a>
+                                <button type="submit" class="btn btn-primary" style="border-radius: 8px;">Update
+                                    Profile</button>
+                            </div>
+                        </form>
                     </div>
-                    <button type="submit" class="btn btn-primary">Post</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Tabs -->
-        <ul class="nav nav-tabs mb-4" id="timelineTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="for-you-tab" data-bs-toggle="tab" data-bs-target="#for-you"
-                    type="button" role="tab">For You</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="following-tab" data-bs-toggle="tab" data-bs-target="#following"
-                    type="button" role="tab">Following</button>
-            </li>
-        </ul>
-        <div class="tab-content mt-4" id="timelineTabsContent">
-            <!-- For You Tab -->
-            <div class="tab-pane fade show active" id="for-you" role="tabpanel">
-                @foreach ($forYouPosts as $post)
-                    @include('partials.post', ['post' => $post, 'showFollow' => true])
-                @endforeach
-            </div>
-            <!-- Following Tab -->
-            <div class="tab-pane fade" id="following" role="tabpanel">
-                @foreach ($followingPosts as $post)
-                    @include('partials.post', ['post' => $post, 'showFollow' => false])
-                @endforeach
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <script>
-        feather.replace();
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
