@@ -36,6 +36,10 @@
                     class="list-group-item list-group-item-action border-0 px-0 py-2">
                     <i class="fas fa-user me-2"></i>My Profile
                 </a>
+                <a href="{{ route('feedback.form') }}"
+                    class="list-group-item list-group-item-action border-0 px-0 py-2">
+                    <i class="fas fa-comment-dots me-2"></i>Feedback
+                </a>
                 <a href="#" class="list-group-item list-group-item-action border-0 px-0 py-2"
                     data-bs-toggle="modal" data-bs-target="#settingsModal">
                     <i class="fas fa-sliders-h me-2"></i>Settings

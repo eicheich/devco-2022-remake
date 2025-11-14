@@ -13,12 +13,17 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RepostController;
 use App\Http\Controllers\UpdateController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\FeedbackController;
 use App\Models\Update;
 
 Route::get('/', function () {
     $updates = Update::latest()->take(2)->get();
     return view('welcome', compact('updates'));
 });
+
+// Feedback routes (bisa diakses tanpa login)
+Route::get('/feedback', [FeedbackController::class, 'show'])->name('feedback.form');
+Route::post('/feedback', [FeedbackController::class, 'send'])->name('feedback.send');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
