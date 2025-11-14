@@ -8,8 +8,8 @@
             <div class="col-md-6">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body p-5">
-                        <h3 class="card-title mb-4">Verifikasi Email</h3>
-                        <p class="text-muted mb-4">Langkah 2: Masukkan kode OTP yang dikirim ke {{ session('email') }}</p>
+                        <h3 class="card-title mb-4">Verify Email</h3>
+                        <p class="text-muted mb-4">Step 2: Enter the OTP code sent to {{ session('email') }}</p>
 
                         @if (session('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -20,7 +20,7 @@
 
                         @if ($errors->any())
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <strong>Kesalahan!</strong>
+                                <strong>Error!</strong>
                                 <ul class="mb-0">
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -35,7 +35,7 @@
                             <input type="hidden" name="email" value="{{ session('email') }}">
 
                             <div class="mb-3">
-                                <label for="otp" class="form-label">Kode OTP (6 digit)</label>
+                                <label for="otp" class="form-label">OTP Code (6 digits)</label>
                                 <input type="text" class="form-control @error('otp') is-invalid @enderror" id="otp"
                                     name="otp" placeholder="000000" maxlength="6" pattern="[0-9]{6}"
                                     value="{{ old('otp') }}" required>
@@ -44,12 +44,12 @@
                                 @enderror
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100 mb-3">Verifikasi OTP</button>
+                            <button type="submit" class="btn btn-primary w-100 mb-3">Verify OTP</button>
                         </form>
 
                         <hr>
                         <p class="text-center text-muted text-sm">
-                            Tidak menerima OTP? <a href="{{ route('register.email') }}">Kembali ke langkah 1</a>
+                            Didn't receive OTP? <a href="{{ route('register.email') }}">Back to step 1</a>
                         </p>
                     </div>
                 </div>

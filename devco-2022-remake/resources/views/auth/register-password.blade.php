@@ -25,12 +25,12 @@
             <div class="col-md-6">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body p-5">
-                        <h3 class="card-title mb-4">Buat Password</h3>
-                        <p class="text-muted mb-4">Langkah 3: Atur password untuk akun Anda</p>
+                        <h3 class="card-title mb-4">Create Password</h3>
+                        <p class="text-muted mb-4">Step 3: Set up your account password</p>
 
                         @if ($errors->any())
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <strong>Kesalahan!</strong>
+                                <strong>Error!</strong>
                                 <ul class="mb-0">
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -44,9 +44,9 @@
                             @csrf
 
                             <div class="mb-3">
-                                <label for="name" class="form-label">Nama Lengkap</label>
+                                <label for="name" class="form-label">Full Name</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                    id="name" name="name" placeholder="Nama Anda" value="{{ old('name') }}"
+                                    id="name" name="name" placeholder="Your name" value="{{ old('name') }}"
                                     required>
                                 @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -56,23 +56,23 @@
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <input type="text" class="form-control @error('username') is-invalid @enderror"
-                                    id="username" name="username" placeholder="username_anda" value="{{ old('username') }}"
+                                    id="username" name="username" placeholder="your_username" value="{{ old('username') }}"
                                     required>
                                 @error('username')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                                <small class="form-text text-muted">Username harus unik dan tidak boleh sama dengan user
-                                    lain</small>
+                                <small class="form-text text-muted">Username must be unique and different from other
+                                    users</small>
                             </div>
 
                             <div class="mb-3">
-                                <label for="gender" class="form-label">Jenis Kelamin</label>
+                                <label for="gender" class="form-label">Gender</label>
                                 <select class="form-select @error('gender') is-invalid @enderror" id="gender"
                                     name="gender" required>
-                                    <option value="">-- Pilih Jenis Kelamin --</option>
-                                    <option value="male" {{ old('gender') === 'male' ? 'selected' : '' }}>Laki-laki
+                                    <option value="">-- Select Gender --</option>
+                                    <option value="male" {{ old('gender') === 'male' ? 'selected' : '' }}>Male
                                     </option>
-                                    <option value="female" {{ old('gender') === 'female' ? 'selected' : '' }}>Perempuan
+                                    <option value="female" {{ old('gender') === 'female' ? 'selected' : '' }}>Female
                                     </option>
                                 </select>
                                 @error('gender')
@@ -81,7 +81,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="date_of_birth" class="form-label">Tanggal Lahir</label>
+                                <label for="date_of_birth" class="form-label">Date of Birth</label>
                                 <input type="date" class="form-control @error('date_of_birth') is-invalid @enderror"
                                     id="date_of_birth" name="date_of_birth" value="{{ old('date_of_birth') }}" required>
                                 @error('date_of_birth')
@@ -93,7 +93,7 @@
                                 <label for="password" class="form-label">Password</label>
                                 <div style="position: relative;">
                                     <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                        id="password" name="password" placeholder="Minimal 8 karakter" required
+                                        id="password" name="password" placeholder="Minimum 8 characters" required
                                         style="padding-right: 40px;">
                                     <i class="fas fa-eye password-toggle" id="togglePassword"></i>
                                 </div>
@@ -103,12 +103,12 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
+                                <label for="password_confirmation" class="form-label">Confirm Password</label>
                                 <div style="position: relative;">
                                     <input type="password"
                                         class="form-control @error('password_confirmation') is-invalid @enderror"
                                         id="password_confirmation" name="password_confirmation"
-                                        placeholder="Ulangi password" required style="padding-right: 40px;">
+                                        placeholder="Repeat password" required style="padding-right: 40px;">
                                     <i class="fas fa-eye password-toggle" id="togglePasswordConfirmation"></i>
                                 </div>
                                 @error('password_confirmation')
@@ -116,12 +116,12 @@
                                 @enderror
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100 mb-3">Selesaikan Pendaftaran</button>
+                            <button type="submit" class="btn btn-primary w-100 mb-3">Complete Registration</button>
                         </form>
 
                         <hr>
                         <p class="text-center text-muted mb-0">
-                            Sudah punya akun? <a href="{{ route('login') }}">Login di sini</a>
+                            Already have an account? <a href="{{ route('login') }}">Login here</a>
                         </p>
                     </div>
                 </div>
