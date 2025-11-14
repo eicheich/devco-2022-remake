@@ -16,6 +16,12 @@
         .password-toggle:hover {
             color: #495057;
         }
+
+        /* Disable browser password toggle */
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear {
+            display: none;
+        }
     </style>
 @endsection
 
@@ -46,7 +52,8 @@
                                 <label for="password" class="form-label">New Password</label>
                                 <div style="position: relative;">
                                     <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                        id="password" name="password" required style="padding-right: 40px;">
+                                        id="password" name="password" required style="padding-right: 40px;"
+                                        data-lpignore="true" data-form-type="other" autocomplete="new-password">
                                     <i class="fas fa-eye password-toggle" id="togglePassword"></i>
                                 </div>
                                 @error('password')

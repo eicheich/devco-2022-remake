@@ -16,6 +16,22 @@
         .password-toggle:hover {
             color: #495057;
         }
+
+        /* Hide browser's default password reveal button */
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear {
+            display: none;
+        }
+
+        input[type="password"]::-webkit-credentials-auto-fill-button,
+        input[type="password"]::-webkit-contacts-auto-fill-button {
+            visibility: hidden;
+            display: none !important;
+            pointer-events: none;
+            height: 0;
+            width: 0;
+            margin: 0;
+        }
     </style>
 @endsection
 
@@ -47,7 +63,8 @@
                                 <div style="position: relative;">
                                     <input type="password"
                                         class="form-control @error('current_password') is-invalid @enderror"
-                                        id="current_password" name="current_password" required style="padding-right: 40px;">
+                                        id="current_password" name="current_password" required style="padding-right: 40px;"
+                                        data-lpignore="true" data-form-type="other" autocomplete="current-password">
                                     <i class="fas fa-eye password-toggle" id="toggleCurrentPassword"></i>
                                 </div>
                                 @error('current_password')
@@ -59,7 +76,8 @@
                                 <label for="password" class="form-label">New Password</label>
                                 <div style="position: relative;">
                                     <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                        id="password" name="password" required style="padding-right: 40px;">
+                                        id="password" name="password" required style="padding-right: 40px;"
+                                        data-lpignore="true" data-form-type="other" autocomplete="new-password">
                                     <i class="fas fa-eye password-toggle" id="togglePassword"></i>
                                 </div>
                                 @error('password')

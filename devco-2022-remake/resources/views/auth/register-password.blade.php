@@ -16,6 +16,22 @@
         .password-toggle:hover {
             color: #495057;
         }
+
+        /* Hide browser's default password reveal button */
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear {
+            display: none;
+        }
+
+        input[type="password"]::-webkit-credentials-auto-fill-button,
+        input[type="password"]::-webkit-contacts-auto-fill-button {
+            visibility: hidden;
+            display: none !important;
+            pointer-events: none;
+            height: 0;
+            width: 0;
+            margin: 0;
+        }
     </style>
 @endsection
 
@@ -91,12 +107,8 @@
 
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
-                                <div style="position: relative;">
-                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                        id="password" name="password" placeholder="Minimum 8 characters" required
-                                        style="padding-right: 40px;">
-                                    <i class="fas fa-eye password-toggle" id="togglePassword"></i>
-                                </div>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                    id="password" name="password" placeholder="Minimum 8 characters" required>
                                 @error('password')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -104,13 +116,10 @@
 
                             <div class="mb-3">
                                 <label for="password_confirmation" class="form-label">Confirm Password</label>
-                                <div style="position: relative;">
-                                    <input type="password"
-                                        class="form-control @error('password_confirmation') is-invalid @enderror"
-                                        id="password_confirmation" name="password_confirmation"
-                                        placeholder="Repeat password" required style="padding-right: 40px;">
-                                    <i class="fas fa-eye password-toggle" id="togglePasswordConfirmation"></i>
-                                </div>
+                                <input type="password"
+                                    class="form-control @error('password_confirmation') is-invalid @enderror"
+                                    id="password_confirmation" name="password_confirmation" placeholder="Repeat password"
+                                    required>
                                 @error('password_confirmation')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -128,6 +137,29 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+        const togglePasswordConfirmation = document.querySelector('#togglePasswordConfirmation');
+        const passwordConfirmation = document.querySelector('#password_confirmation');
+
+        togglePassword.addEventListener('click', function() {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        togglePasswordConfirmation.addEventListener('click', function() {
+            const type = passwordConfirmation.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordConfirmation.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
 @endsection
 
 @section('scripts')

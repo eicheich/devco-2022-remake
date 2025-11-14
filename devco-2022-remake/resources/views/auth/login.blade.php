@@ -16,6 +16,12 @@
         .password-toggle:hover {
             color: #495057;
         }
+
+        /* Disable browser password toggle */
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear {
+            display: none;
+        }
     </style>
 @endsection
 
@@ -73,8 +79,8 @@
 
 @section('scripts')
     <script>
-        const togglePassword = document.getElementById('togglePassword');
-        const password = document.getElementById('password');
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
 
         togglePassword.addEventListener('click', function() {
             const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
