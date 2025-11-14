@@ -22,7 +22,7 @@ class RegistrationController extends Controller
         $request->validate([
             'email' => 'required|email|unique:users,email',
         ], [
-            'email.unique' => 'Email sudah terdaftar',
+            'email.unique' => 'Email already registered',
         ]);
 
         // Throttle: max 3 OTP per email per hour
@@ -31,7 +31,7 @@ class RegistrationController extends Controller
             ->count();
 
         if ($recentCount >= 3) {
-            return back()->withErrors(['email' => 'Terlalu banyak percobaan. Coba lagi dalam 1 jam.']);
+            return back()->withErrors(['email' => 'Too many attempts. Please try again in 1 hour.']);
         }
 
         $otpRecord = RegistrationOtp::createForEmail($request->email);
@@ -41,7 +41,7 @@ class RegistrationController extends Controller
 
         return redirect()->route('register.verify')->with([
             'email' => $request->email,
-            'success' => 'OTP telah dikirim ke email Anda',
+            'success' => 'OTP has been sent to your email',
         ]);
     }
 
@@ -60,20 +60,20 @@ class RegistrationController extends Controller
         $otpRecord = RegistrationOtp::where('email', $request->email)->first();
 
         if (!$otpRecord) {
-            return back()->withErrors(['otp' => 'OTP tidak ditemukan']);
+            return back()->withErrors(['otp' => 'OTP not found']);
         }
 
         if ($otpRecord->isExpired()) {
             $otpRecord->delete();
-            return back()->withErrors(['otp' => 'OTP telah kadaluarsa']);
+            return back()->withErrors(['otp' => 'OTP has expired']);
         }
 
         if ($otpRecord->otp !== $request->otp) {
-            return back()->withErrors(['otp' => 'OTP salah']);
+            return back()->withErrors(['otp' => 'Invalid OTP']);
         }
 
         if ($otpRecord->used) {
-            return back()->withErrors(['otp' => 'OTP sudah digunakan']);
+            return back()->withErrors(['otp' => 'OTP already used']);
         }
 
         $otpRecord->update(['used' => true]);
@@ -105,20 +105,20 @@ class RegistrationController extends Controller
             'date_of_birth' => 'required|date|before:today',
             'password' => ['required', 'confirmed', Password::min(8)],
         ], [
-            'username.unique' => 'Username sudah digunakan, silakan pilih yang lain',
-            'username.regex' => 'Username hanya boleh mengandung huruf, angka, dan underscore',
-            'date_of_birth.before' => 'Tanggal lahir harus sebelum hari ini'
+            'username.unique' => 'Username already taken, please choose another',
+            'username.regex' => 'Username can only contain letters, numbers, and underscore',
+            'date_of_birth.before' => 'Date of birth must be before today'
         ]);
 
         $email = session('email');
 
         if (!$email) {
-            return redirect()->route('register.email')->withErrors(['email' => 'Session expired, silakan coba lagi']);
+            return redirect()->route('register.email')->withErrors(['email' => 'Session expired, please try again']);
         }
 
         // Check if email already registered (extra safety)
         if (User::where('email', $email)->exists()) {
-            return back()->withErrors(['email' => 'Email sudah terdaftar']);
+            return back()->withErrors(['email' => 'Email already registered']);
         }
 
         User::create([
@@ -134,6 +134,6 @@ class RegistrationController extends Controller
         RegistrationOtp::where('email', $email)->delete();
         session()->forget(['email', 'otp_verified']);
 
-        return redirect()->route('login')->with('success', 'Pendaftaran berhasil! Silakan login.');
+        return redirect()->route('login')->with('success', 'Registration successful! Please login.');
     }
 }
