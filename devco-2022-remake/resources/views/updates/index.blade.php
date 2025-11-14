@@ -34,7 +34,7 @@
             <div class="col-lg-8 mx-auto">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2>Updates</h2>
-                    @if (Auth::check() && Auth::user()->email === 'admin@devco.com')
+                    @if (Auth::check() && Auth::user()->isAdmin())
                         <a href="{{ route('updates.create') }}" class="btn btn-primary">
                             <i class="fas fa-plus me-2"></i>New Update
                         </a>
@@ -59,7 +59,7 @@
                                             <span class="badge bg-info">v{{ $update->version }}</span>
                                         @endif
                                     </div>
-                                    @if (Auth::check() && Auth::user()->email === 'admin@devco.com')
+                                    @if (Auth::check() && Auth::user()->isAdmin())
                                         <div class="dropdown">
                                             <button class="btn btn-sm btn-link text-dark" type="button"
                                                 data-bs-toggle="dropdown">

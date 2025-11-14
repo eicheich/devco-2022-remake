@@ -29,7 +29,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::resource('posts', PostController::class)->only(['store', 'edit', 'update', 'destroy']);
-    Route::resource('updates', UpdateController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+    Route::get('/updates', [UpdateController::class, 'index'])->name('updates.index');
     Route::post('/follow/{user}', [FollowController::class, 'store'])->name('follow.store');
     Route::delete('/follow/{user}', [FollowController::class, 'destroy'])->name('follow.destroy');
     Route::post('/likes/{post}', [LikeController::class, 'toggle'])->name('likes.toggle');
@@ -42,4 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/{user}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+// Admin-only routes
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('updates', UpdateController::class)->except(['index']);
 });

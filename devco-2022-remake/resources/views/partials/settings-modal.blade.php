@@ -7,13 +7,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="list-group">
+                <div class="list-group list-group-flush">
                     <a href="{{ route('profile.edit', Auth::id()) }}" class="list-group-item list-group-item-action">
                         <i class="fas fa-user-edit me-2"></i>Edit Profile
                     </a>
-                    @if (Auth::user()->email === 'admin@devco.com')
+                    @if (Auth::user()->isAdmin())
                         <a href="{{ route('updates.index') }}" class="list-group-item list-group-item-action">
-                            <i class="fas fa-newspaper me-2"></i>Manage Updates
+                            <i class="fas fa-megaphone me-2"></i>Manage Updates
                         </a>
                     @endif
                     <a href="#" class="list-group-item list-group-item-action">

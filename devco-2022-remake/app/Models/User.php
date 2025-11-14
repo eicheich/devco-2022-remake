@@ -80,4 +80,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+    // Check if user is admin
+    public function isAdmin()
+    {
+        return $this->email === 'devco.houselab@gmail.com';
+    }
 }
