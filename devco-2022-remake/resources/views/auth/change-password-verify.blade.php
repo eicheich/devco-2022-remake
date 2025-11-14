@@ -35,7 +35,7 @@
                             OTP has been sent to: <strong>{{ $email }}</strong>
                         </div>
 
-                        <form method="POST" action="{{ route('password.change.verify') }}">
+                        <form method="POST" action="{{ route('password.change.verify.post') }}">
                             @csrf
                             <div class="mb-3">
                                 <label for="otp" class="form-label">OTP Code</label>

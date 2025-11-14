@@ -65,7 +65,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/change-password', [PasswordController::class, 'showChangeForm'])->name('password.change');
     Route::post('/change-password/send-otp', [PasswordController::class, 'sendChangeOtp'])->name('password.change.send-otp');
     Route::get('/change-password/verify', [PasswordController::class, 'showChangeVerifyForm'])->name('password.change.verify');
-    Route::post('/change-password/verify', [PasswordController::class, 'verifyChangeOtp'])->name('password.change.verify');
+    Route::post('/change-password/verify', [PasswordController::class, 'verifyChangeOtp'])->name('password.change.verify.post');
     Route::get('/change-password/new', [PasswordController::class, 'showChangeNewForm'])->name('password.change.new');
     Route::post('/change-password/update', [PasswordController::class, 'updatePassword'])->name('password.change.update');
 });
