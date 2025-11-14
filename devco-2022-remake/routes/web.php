@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FollowController;
@@ -17,8 +18,12 @@ Route::get('/', function () {
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
+Route::get('/register', [RegistrationController::class, 'showEmailForm'])->name('register.email');
+Route::post('/register/send-otp', [RegistrationController::class, 'sendOtp'])->name('register.send-otp');
+Route::get('/register/verify', [RegistrationController::class, 'showVerifyForm'])->name('register.verify');
+Route::post('/register/verify', [RegistrationController::class, 'verifyOtp']);
+Route::get('/register/password', [RegistrationController::class, 'showPasswordForm'])->name('register.password');
+Route::post('/register/complete', [RegistrationController::class, 'completeRegistration'])->name('register.complete');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {

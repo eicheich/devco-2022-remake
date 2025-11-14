@@ -44,7 +44,8 @@
                             <button type="submit" class="btn btn-primary w-100"
                                 style="border-radius: 10px;">Login</button>
                         </form>
-                        <p class="mt-3 text-center">Don't have an account? <a href="{{ route('register') }}">Register
+                        <p class="mt-3 text-center">Don't have an account? <a
+                                href="{{ route('register.email') }}">Register
                                 here</a>
                         </p>
                     </div>

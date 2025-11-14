@@ -26,7 +26,7 @@
                                 </ul>
                             </div>
                         @endif
-                        <form method="POST" action="{{ route('register') }}">
+                        <form method="POST" action="{{ route('register.email') }}">
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label">Full Name</label>
