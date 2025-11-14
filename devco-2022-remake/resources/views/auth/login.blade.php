@@ -1,14 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+@section('title', 'Login')
 
-<body style="background-color: #f8f9fa; min-height: 100vh;">
+@section('styles')
+    <style>
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .password-toggle:hover {
+            color: #495057;
+        }
+    </style>
+@endsection
+
+@section('content')
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -38,14 +49,19 @@
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="Enter your password" required>
+                                <div style="position: relative;">
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="Enter your password" required style="padding-right: 40px;">
+                                    <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100"
-                                style="border-radius: 10px;">Login</button>
+                            <div class="mb-3 text-end">
+                                <a href="{{ route('password.forgot') }}" class="text-decoration-none">Forgot
+                                    Password?</a>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100" style="border-radius: 10px;">Login</button>
                         </form>
-                        <p class="mt-3 text-center">Don't have an account? <a
-                                href="{{ route('register.email') }}">Register
+                        <p class="mt-3 text-center">Don't have an account? <a href="{{ route('register.email') }}">Register
                                 here</a>
                         </p>
                     </div>
@@ -53,7 +69,18 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+@endsection
 
-</html>
+@section('scripts')
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function() {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
+@endsection

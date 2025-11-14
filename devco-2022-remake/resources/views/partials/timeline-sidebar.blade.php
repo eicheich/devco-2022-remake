@@ -6,11 +6,11 @@
                 <i class="fas fa-info-circle me-2"></i>Updates
             </h6>
             <div class="small">
-                @forelse(\App\Models\Update::latest()->take(3)->get() as $update)
-                    <div class="mb-3 pb-2 border-bottom">
+                @forelse(\App\Models\Update::latest()->take(2)->get() as $update)
+                    <div class="mb-3 pb-2 {{ !$loop->last ? 'border-bottom' : '' }}">
                         <p class="mb-1 fw-bold">{{ $update->title }}</p>
                         <p class="mb-1 text-muted" style="font-size: 0.85rem;">
-                            {{ Str::limit($update->description, 60) }}
+                            {{ Str::limit($update->description, 40) }}
                         </p>
                         @if ($update->version)
                             <small class="text-muted">v{{ $update->version }}</small>

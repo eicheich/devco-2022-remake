@@ -48,6 +48,8 @@
                     </div>
                 </div>
             </div>
+
+            @include('partials.timeline-right-sidebar')
         </div>
     </div>
 

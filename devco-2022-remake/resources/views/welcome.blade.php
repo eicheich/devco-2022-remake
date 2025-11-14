@@ -106,12 +106,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <div class="ms-auto d-flex align-items-center gap-2">
-                        <button class="btn btn-link text-dark p-0" id="welcomeDarkModeToggle" title="Toggle Dark Mode">
-                            <i class="fas fa-moon fa-lg"></i>
-                        </button>
                         <div>
                             @auth
-                                <a href="{{ url('/dashboard') }}" class="btn btn-primary me-2">Timeline</a>
+                                <a href="{{ route('home') }}" class="btn btn-primary me-2">Timeline</a>
                                 <form method="POST" action="{{ route('logout') }}" class="d-inline">
                                     @csrf
                                     <button type="submit" class="btn btn-outline-danger">Logout</button>
@@ -137,9 +134,6 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <div class="ms-auto d-flex align-items-center gap-2">
-                        <button class="btn btn-link text-dark p-0" id="welcomeDarkModeToggle" title="Toggle Dark Mode">
-                            <i class="fas fa-moon fa-lg"></i>
-                        </button>
                         <div>
                             <a href="{{ route('login') }}" class="btn btn-outline-primary me-2">Login</a>
                             <a href="{{ route('register.email') }}" class="btn btn-primary">Sign Up</a>
@@ -171,25 +165,56 @@
             </div>
 
             <div class="col-lg-6">
+                <!-- What's New -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <h5 class="card-title fw-bold mb-3">
+                            <i class="fas fa-rocket text-primary me-2"></i>What's New
+                        </h5>
+                        @forelse($updates as $update)
+                            <div class="mb-3 pb-3 {{ !$loop->last ? 'border-bottom' : '' }}">
+                                <div class="d-flex align-items-start">
+                                    <span
+                                        class="badge {{ $loop->first ? 'bg-primary' : 'bg-success' }} me-2">{{ $loop->first ? 'New' : 'Update' }}</span>
+                                    <div>
+                                        <strong>{{ $update->title }}</strong>
+                                        @if ($update->version)
+                                            <span class="badge bg-secondary ms-1">v{{ $update->version }}</span>
+                                        @endif
+                                        <p class="text-muted small mb-0">{{ Str::limit($update->description, 50) }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="text-center py-3">
+                                <i class="fas fa-info-circle fa-2x text-muted mb-2"></i>
+                                <p class="text-muted small mb-0">No updates available</p>
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+
+                <!-- Features -->
                 <div class="card border-0 shadow-sm">
-                    <div class="card-body p-5">
-                        <h5 class="card-title fw-bold mb-4">Features</h5>
+                    <div class="card-body p-4">
+                        <h5 class="card-title fw-bold mb-3">Features</h5>
                         <ul class="list-unstyled">
-                            <li class="mb-3">
+                            <li class="mb-2">
                                 <i class="fas fa-check-circle text-primary me-2"></i>
-                                <strong>Share Posts</strong> - Express yourself with text and media
+                                <strong>Share Posts</strong> - Express yourself
                             </li>
-                            <li class="mb-3">
+                            <li class="mb-2">
                                 <i class="fas fa-check-circle text-primary me-2"></i>
-                                <strong>Interact</strong> - Like, comment, and engage with content
+                                <strong>Interact</strong> - Like & comment
                             </li>
-                            <li class="mb-3">
+                            <li class="mb-2">
                                 <i class="fas fa-check-circle text-primary me-2"></i>
-                                <strong>Follow Friends</strong> - Stay updated with their activities
+                                <strong>Follow Friends</strong> - Stay connected
                             </li>
-                            <li class="mb-3">
+                            <li class="mb-2">
                                 <i class="fas fa-check-circle text-primary me-2"></i>
-                                <strong>Get Notifications</strong> - Never miss important updates
+                                <strong>Get Notifications</strong> - Real-time updates
                             </li>
                         </ul>
                     </div>
@@ -198,9 +223,11 @@
         </div>
     </div>
 
-    <footer class="bg-light py-4 mt-5">
-        <div class="container text-center text-muted">
-            <p class="mb-0">&copy; {{ date('Y') }} DevCo. All rights reserved.</p>
+    <footer class="bg-light py-4 mt-5 text-center border-top">
+        <div class="container">
+            <p class="mb-0 text-muted">&copy; 2022 <a href="https://houselab.my.id" target="_blank"
+                    class="text-decoration-none text-muted">Houselab</a>
+            </p>
         </div>
     </footer>
 

@@ -11,7 +11,7 @@
                         <img src="{{ $user->gender === 'male' ? 'https://assets.houselab.my.id/devco/man.png' : 'https://assets.houselab.my.id/devco/woman.png' }}"
                             alt="Profile Picture" class="rounded-circle mb-3" style="width: 120px; height: 120px;">
                         <h4>{{ $user->name }}</h4>
-                        <p class="text-muted">{{ $user->email }}</p>
+                        <p class="text-muted">{{ '@' . $user->username }}</p>
                         <div class="d-flex justify-content-around mt-4">
                             <div class="text-center">
                                 <strong class="fs-5">{{ $posts->count() }}</strong><br><small
@@ -97,7 +97,6 @@
                             <div class="list-group-item d-flex justify-content-between align-items-center">
                                 <div>
                                     <h6 class="mb-0">{{ $follow->follower->name }}</h6>
-                                    <small class="text-muted">{{ $follow->follower->email }}</small>
                                 </div>
                                 @if (Auth::id() !== $follow->follower_id)
                                     @if (Auth::user()->isFollowing($follow->follower))
@@ -143,7 +142,6 @@
                             <div class="list-group-item d-flex justify-content-between align-items-center">
                                 <div>
                                     <h6 class="mb-0">{{ $follow->followed->name }}</h6>
-                                    <small class="text-muted">{{ $follow->followed->email }}</small>
                                 </div>
                                 @if (Auth::id() !== $follow->followed_id)
                                     @if (Auth::user()->isFollowing($follow->followed))

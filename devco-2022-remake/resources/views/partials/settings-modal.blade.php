@@ -16,7 +16,7 @@
                             <i class="fas fa-megaphone me-2"></i>Manage Updates
                         </a>
                     @endif
-                    <a href="#" class="list-group-item list-group-item-action">
+                    <a href="{{ route('password.change') }}" class="list-group-item list-group-item-action">
                         <i class="fas fa-lock me-2"></i>Change Password
                     </a>
                     <a href="#" class="list-group-item list-group-item-action">

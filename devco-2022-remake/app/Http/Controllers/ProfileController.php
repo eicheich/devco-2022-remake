@@ -33,10 +33,16 @@ class ProfileController extends Controller
         }
         $request->validate([
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id . '|regex:/^[a-zA-Z0-9_]+$/',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'gender' => 'required|in:male,female',
+            'date_of_birth' => 'required|date|before:today',
+        ], [
+            'username.unique' => 'Username sudah digunakan, silakan pilih yang lain',
+            'username.regex' => 'Username hanya boleh mengandung huruf, angka, dan underscore',
+            'date_of_birth.before' => 'Date of birth must be before today'
         ]);
-        $user->update($request->only(['name', 'email', 'gender']));
+        $user->update($request->only(['name', 'username', 'email', 'gender', 'date_of_birth']));
         return redirect()->route('profile.show', $user->id)->with('success', 'Profile updated successfully.');
     }
 }

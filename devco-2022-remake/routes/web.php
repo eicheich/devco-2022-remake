@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FollowController;
@@ -11,9 +12,12 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RepostController;
 use App\Http\Controllers\UpdateController;
+use App\Http\Controllers\SearchController;
+use App\Models\Update;
 
 Route::get('/', function () {
-    return view('welcome');
+    $updates = Update::latest()->take(2)->get();
+    return view('welcome', compact('updates'));
 });
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -26,8 +30,17 @@ Route::get('/register/password', [RegistrationController::class, 'showPasswordFo
 Route::post('/register/complete', [RegistrationController::class, 'completeRegistration'])->name('register.complete');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// Forgot Password routes (tidak perlu login)
+Route::get('/forgot-password', [PasswordController::class, 'showForgotForm'])->name('password.forgot');
+Route::post('/forgot-password/send-otp', [PasswordController::class, 'sendResetOtp'])->name('password.reset.send-otp');
+Route::get('/forgot-password/verify', [PasswordController::class, 'showResetVerifyForm'])->name('password.reset.verify');
+Route::post('/forgot-password/verify', [PasswordController::class, 'verifyResetOtp']);
+Route::get('/forgot-password/new', [PasswordController::class, 'showResetNewForm'])->name('password.reset.new');
+Route::post('/forgot-password/update', [PasswordController::class, 'resetPassword'])->name('password.reset.update');
+
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/search', [SearchController::class, 'search'])->name('search');
     Route::resource('posts', PostController::class)->only(['store', 'edit', 'update', 'destroy']);
     Route::get('/updates', [UpdateController::class, 'index'])->name('updates.index');
     Route::post('/follow/{user}', [FollowController::class, 'store'])->name('follow.store');
@@ -42,6 +55,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/{user}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
+
+    // Change Password routes (perlu login)
+    Route::get('/change-password', [PasswordController::class, 'showChangeForm'])->name('password.change');
+    Route::post('/change-password/send-otp', [PasswordController::class, 'sendChangeOtp'])->name('password.change.send-otp');
+    Route::get('/change-password/verify', [PasswordController::class, 'showChangeVerifyForm'])->name('password.change.verify');
+    Route::post('/change-password/verify', [PasswordController::class, 'verifyChangeOtp'])->name('password.change.verify');
+    Route::get('/change-password/new', [PasswordController::class, 'showChangeNewForm'])->name('password.change.new');
+    Route::post('/change-password/update', [PasswordController::class, 'updatePassword'])->name('password.change.update');
 });
 
 // Admin-only routes

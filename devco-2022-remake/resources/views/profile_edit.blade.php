@@ -80,7 +80,7 @@
                         class="me-3 text-decoration-none d-flex align-items-center">
                         <img src="{{ Auth::user()->gender === 'male' ? 'https://assets.houselab.my.id/devco/man.png' : 'https://assets.houselab.my.id/devco/woman.png' }}"
                             alt="Profile" class="rounded-circle" style="width: 40px; height: 40px;">
-                        <span class="navbar-text ms-2 d-none d-lg-inline">{{ Auth::user()->name }}</span>
+                        <span class="navbar-text ms-2 d-none d-lg-inline">{{ '@' . Auth::user()->username }}</span>
                     </a>
                     <form method="POST" action="{{ route('logout') }}" class="d-inline">
                         @csrf
@@ -149,6 +149,15 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username"
+                                    value="{{ old('username', $user->username) }}" required
+                                    style="border-radius: 8px;">
+                                @error('username')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" name="email"
                                     value="{{ old('email', $user->email) }}" required style="border-radius: 8px;">
@@ -167,6 +176,15 @@
                                     </option>
                                 </select>
                                 @error('gender')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="date_of_birth" class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth"
+                                    value="{{ old('date_of_birth', $user->date_of_birth) }}" required
+                                    style="border-radius: 8px;">
+                                @error('date_of_birth')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>

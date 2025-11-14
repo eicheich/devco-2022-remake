@@ -68,7 +68,7 @@
                         class="me-3 text-decoration-none d-flex align-items-center">
                         <img src="{{ Auth::user()->gender === 'male' ? 'https://assets.houselab.my.id/devco/man.png' : 'https://assets.houselab.my.id/devco/woman.png' }}"
                             alt="Profile" class="rounded-circle" style="width: 40px; height: 40px;">
-                        <span class="navbar-text ms-2 d-none d-lg-inline">{{ Auth::user()->name }}</span>
+                        <span class="navbar-text ms-2 d-none d-lg-inline">{{ '@' . Auth::user()->username }}</span>
                     </a>
                 </div>
             </div>
@@ -112,3 +112,21 @@
         </div>
     </div>
 @endauth
+
+@guest
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url('/') }}">DevCo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="ms-auto">
+                    <a href="{{ route('login') }}" class="btn btn-outline-primary me-2">Login</a>
+                    <a href="{{ route('register.email') }}" class="btn btn-primary">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+@endguest

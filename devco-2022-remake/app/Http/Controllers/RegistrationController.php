@@ -100,8 +100,14 @@ class RegistrationController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username|regex:/^[a-zA-Z0-9_]+$/',
             'gender' => 'required|in:male,female',
+            'date_of_birth' => 'required|date|before:today',
             'password' => ['required', 'confirmed', Password::min(8)],
+        ], [
+            'username.unique' => 'Username sudah digunakan, silakan pilih yang lain',
+            'username.regex' => 'Username hanya boleh mengandung huruf, angka, dan underscore',
+            'date_of_birth.before' => 'Tanggal lahir harus sebelum hari ini'
         ]);
 
         $email = session('email');
@@ -117,8 +123,10 @@ class RegistrationController extends Controller
 
         User::create([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $email,
             'gender' => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
             'password' => Hash::make($request->password),
         ]);
 
