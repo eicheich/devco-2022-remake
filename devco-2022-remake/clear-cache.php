@@ -1,19 +1,20 @@
 <?php
+
 /**
  * Clear Laravel Cache via Browser
  * Upload this file to server root and access via browser
  * Then delete this file after use for security
  */
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
-$app = require_once __DIR__.'/bootstrap/app.php';
+$app = require_once __DIR__ . '/bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 
 // Clear all caches
 $commands = [
     'route:clear',
-    'config:clear', 
+    'config:clear',
     'cache:clear',
     'view:clear',
     'optimize:clear'
